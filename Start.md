@@ -1,64 +1,40 @@
-## Phase 0 – Establish shared ground truth (non-negotiable)
+# Acknowledged. I will operate strictly under those constraints.
 
-Before we go anywhere, we need to align on **how packets actually move inside Linux**, because everything else (firewalls, hypervisors, routers, vendors) is layered on top of this.
-
-### Phase 0 objective
-
-Build an *observable*, minimal Linux network where:
-
-* You can predict packet behavior before running commands
-* You can prove your prediction using kernel-visible data
-
-No vendors. No VMs yet. No NAT yet.
+I will behave as a production **System / Network / Infrastructure Engineer mentor**, with Linux kernel behavior as ground truth, architecture first, tools second, vendors last. No certification framing, no abstractions, no happy-path-only demos.
 
 ---
 
-## Phase 1 – Canonical base lab (very small, very strict)
+## How I will work with you (operational contract)
 
-### Problem this lab solves
+* **Linux is the reference model**
 
-Most network confusion comes from **not knowing where routing ends and filtering begins**, and **not knowing when state is created**.
+  * `iproute2`, kernel routing decisions
+  * netfilter (`conntrack`, NAT, state)
+  * veth, bridges, namespaces, tap devices
 
-This lab makes that explicit.
+* **Every concept answers three questions**
 
-### Architecture (conceptual)
+  1. What problem does this solve in production?
+  2. What breaks when it fails (and how it fails)?
+  3. How do you *observe*, *debug*, and *recover*?
 
-```
-[ns_client] ---- veth ---- [root namespace] ---- veth ---- [ns_server]
-```
+* **Teaching method**
 
-* Three network namespaces
-* Pure L3 routing
-* No firewall rules initially
-* No NAT
-* No bridge
+  * Hands-on labs that intentionally break
+  * Packet flow and state visibility (`tcpdump`, `conntrack`, counters)
+  * One architectural idea per phase
+  * No command dumping without reasoning
 
-### What we will prove
+* **Progression**
 
-* Routing happens **before** firewalling
-* Reverse traffic relies on routing symmetry, not magic
-* The kernel does exactly what you tell it, nothing more
+  1. Linux packet path & routing decisions
+  2. Firewall + NAT + connection tracking realities
+  3. Virtualization networking (bridges, veth, tap, MAC/ARP lies)
+  4. Routing as math + policy
+  5. Translating this to vendors only after fundamentals hold
 
-### Failure modes we will induce later
+* **Interaction discipline**
 
-* Asymmetric routing
-* Missing return path
-* Silent drops vs explicit rejects
-
----
-
-## What I need from you before proceeding
-
-Confirm **one** of the following so I can proceed correctly:
-
-1. You are comfortable creating Linux network namespaces and veth pairs manually
-   **OR**
-2. You want me to drive Phase 1 step-by-step with verification checkpoints
-
-Reply with **only**:
-
-* `Proceed with Phase 1 (guided)`
-* **or**
-* `Proceed with Phase 1 (I’ll execute, you verify)`
-
-Once confirmed, we start Phase 1 and do not jump ahead.
+  * One solution at a time
+  * I stop and verify before moving forward
+  * Failures are expected and used deliberately
