@@ -12,8 +12,8 @@ This lab makes that explicit.
 [ns_client] ---- veth ---- [root namespace] ---- veth ---- [ns_server]
 ```
 
-* Three network namespaces
-* Pure L3 routing
+* [Three network namespaces](./Three_Network_NameSpaces.md)
+* [Pure L3 routing](./Pure_L3_routing.md)
 * No firewall rules initially
 * No NAT
 * No bridge
